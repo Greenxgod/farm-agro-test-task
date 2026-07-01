@@ -1,0 +1,93 @@
+
+.container {
+  background: var(--color-bg-white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow: auto;
+  box-shadow: var(--shadow-sm);
+  
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table th {
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table tr:hover {
+  background: var(--color-bg);
+}
+
+.editBtn,
+.deleteBtn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  margin-right: var(--spacing-xs);
+  transition: all 0.2s;
+  width: 30px;
+  height: 27px;
+}
+.button_wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.editBtn {
+  background: var(--color-primary);
+  color: white;
+}
+
+.editBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+.deleteBtn {
+  background: var(--color-danger);
+  color: white;
+}
+
+.deleteBtn:hover {
+  opacity: 0.8;
+}
+
+.loading,
+.empty {
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width:720px) {
+  .table th{
+    font-size: 13px;
+    padding: 4px 14px;
+  }
+  .table td{
+    font-size: 11px;
+    padding: 4px 14px;
+  }
+}
+
+@media (max-width:500px){
+  .table td,.table th{
+    font-size: 12px;
+  }
+}

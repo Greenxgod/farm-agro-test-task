@@ -1,0 +1,102 @@
+.header {
+  background: var(--color-bg-white);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-md) 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+@media (max-width: 900px){
+   html{
+    font-size: 100%;
+  }
+  .title{
+    font-size: 1.165rem;
+  }
+}
+@media (max-width: 800px){
+  .title{
+    font-size: 17px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.btnPrimary {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+
+
+.btnSecondary {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btnSecondary:hover {
+  background: var(--color-border);
+}
+
+@media (max-width: 900px) { 
+  .btnPrimary, .btnSecondary{
+    font-size: 11px;
+  }
+}
+
+
+@media (max-width: 710px) { 
+  .btnPrimary, .btnSecondary{
+    font-size: 9px;
+  }
+  title{
+    font-size: 15px;
+  }
+}
+.btnPrimary:hover {
+  background: var(--color-primary-hover);
+}
+
+@media (max-width: 655px) { 
+  .btnPrimary, .btnSecondary{
+    padding: 4px 9px;
+
+  }
+  .title{
+    font-size: 15px;
+  }
+}
+@media (max-width: 500px) {
+  .title{
+    font-size: 14px;
+  }
+}

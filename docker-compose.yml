@@ -1,0 +1,64 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: reproductive_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: reproductive_farms
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - reproductive_network
+
+  backend:
+    build: ./backend
+    container_name: reproductive_backend
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/reproductive_farms
+      FLASK_ENV: development
+      SECRET_KEY: dev-secret-key-12345
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "
+        flask db upgrade &&
+        python -c 'from app.seed import seed_database; seed_database()' 2>/dev/null || true &&
+        python run.py
+      "
+    networks:
+      - reproductive_network
+
+  frontend:
+    build: ./frontend
+    container_name: reproductive_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - reproductive_network
+
+volumes:
+  postgres_data:
+
+networks:
+  reproductive_network:
+    driver: bridge

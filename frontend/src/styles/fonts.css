@@ -1,0 +1,4 @@
+/* Системные шрифты - ничего не подключаем, используем стандартные */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
