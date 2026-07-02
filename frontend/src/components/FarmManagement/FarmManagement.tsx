@@ -13,6 +13,7 @@ const FarmManagement: React.FC<FarmManagementProps> = ({ farms, onSuccess }) => 
   const [newName, setNewName] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const createMutation = useCreateFarm();
   const updateMutation = useUpdateFarm();
@@ -21,28 +22,49 @@ const FarmManagement: React.FC<FarmManagementProps> = ({ farms, onSuccess }) => 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName.trim()) return;
-    await createMutation.mutateAsync({ name: newName.trim() });
-    setNewName('');
-    onSuccess();
+    setError(null);
+    try {
+      await createMutation.mutateAsync({ name: newName.trim() });
+      setNewName('');
+      onSuccess();
+    } catch (err: any) {
+      setError(err.message || 'Ошибка создания фермы');
+    }
   };
 
   const handleUpdate = async (id: number) => {
     if (!editingName.trim()) return;
-    await updateMutation.mutateAsync({ id, data: { name: editingName.trim() } });
-    setEditingId(null);
-    setEditingName('');
-    onSuccess();
+    setError(null);
+    try {
+      await updateMutation.mutateAsync({ id, data: { name: editingName.trim() } });
+      setEditingId(null);
+      setEditingName('');
+      onSuccess();
+    } catch (err: any) {
+      setError(err.message || 'Ошибка обновления фермы');
+    }
   };
 
   const handleDelete = async (id: number, name: string) => {
-    if (window.confirm(`Удалить ферму "${name}"?`)) {
-      await deleteMutation.mutateAsync(id);
-      onSuccess();
+    if (window.confirm(`Удалить ферму "${name}"?\n\nВсе связанные записи будут удалены автоматически.`)) {
+      setError(null);
+      try {
+        await deleteMutation.mutateAsync(id);
+        onSuccess();
+      } catch (err: any) {
+        setError(err.message || 'Ошибка удаления фермы');
+      }
     }
   };
 
   return (
     <div className={styles.container}>
+      {error && (
+        <div className={styles.error}>
+          ⚠️ {error}
+        </div>
+      )}
+
       <form onSubmit={handleCreate} className={styles.createForm}>
         <input
           type="text"

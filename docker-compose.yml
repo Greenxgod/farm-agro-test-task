@@ -35,7 +35,7 @@ services:
     command: >
       sh -c "
         flask db upgrade &&
-        python -c 'from app.seed import seed_database; seed_database()' 2>/dev/null || true &&
+        python seed_run.py &&
         python run.py
       "
     networks:

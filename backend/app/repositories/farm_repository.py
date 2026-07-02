@@ -25,5 +25,6 @@ class FarmRepository:
     
     @staticmethod
     def delete(farm):
+        # При удалении фермы, все связанные записи удаляются через ON DELETE CASCADE
         db.session.delete(farm)
         db.session.commit()

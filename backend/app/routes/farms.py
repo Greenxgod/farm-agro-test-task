@@ -6,7 +6,7 @@ from marshmallow import ValidationError
 
 farms_bp = Blueprint('farms', __name__)
 
-@farms_bp.route('/', methods=['GET'])
+@farms_bp.route('', methods=['GET'], strict_slashes=False)
 def get_farms():
     """
     Get all farms
@@ -33,7 +33,7 @@ def get_farms():
     farms = FarmService.get_all_farms()
     return jsonify([farm.to_dict() for farm in farms])
 
-@farms_bp.route('/<int:farm_id>', methods=['GET'])
+@farms_bp.route('/<int:farm_id>', methods=['GET'], strict_slashes=False)
 def get_farm(farm_id):
     """
     Get farm by ID
@@ -48,13 +48,31 @@ def get_farm(farm_id):
     responses:
       200:
         description: Farm details
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
       404:
         description: Farm not found
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            errors:
+              type: object
     """
     farm = FarmService.get_farm_by_id(farm_id)
     return jsonify(farm.to_dict())
 
-@farms_bp.route('/', methods=['POST'])
+@farms_bp.route('', methods=['POST'], strict_slashes=False)
 def create_farm():
     """
     Create a new farm
@@ -76,8 +94,29 @@ def create_farm():
     responses:
       201:
         description: Farm created
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
       400:
         description: Validation error
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Validation error"
+            errors:
+              type: object
+              example:
+                name: ["Farm with this name already exists"]
     """
     try:
         schema = FarmCreateSchema()
@@ -89,7 +128,7 @@ def create_farm():
     except ValueError as e:
         raise AppError('Invalid request', 400)
 
-@farms_bp.route('/<int:farm_id>', methods=['PUT'])
+@farms_bp.route('/<int:farm_id>', methods=['PUT'], strict_slashes=False)
 def update_farm(farm_id):
     """
     Update a farm
@@ -113,10 +152,35 @@ def update_farm(farm_id):
     responses:
       200:
         description: Farm updated
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
       400:
         description: Validation error
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            errors:
+              type: object
       404:
         description: Farm not found
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            errors:
+              type: object
     """
     try:
         schema = FarmUpdateSchema()
@@ -128,7 +192,7 @@ def update_farm(farm_id):
     except ValueError as e:
         raise AppError('Invalid request', 400)
 
-@farms_bp.route('/<int:farm_id>', methods=['DELETE'])
+@farms_bp.route('/<int:farm_id>', methods=['DELETE'], strict_slashes=False)
 def delete_farm(farm_id):
     """
     Delete a farm
@@ -143,10 +207,15 @@ def delete_farm(farm_id):
     responses:
       204:
         description: Farm deleted
-      400:
-        description: Cannot delete farm with records
       404:
         description: Farm not found
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            errors:
+              type: object
     """
     FarmService.delete_farm(farm_id)
     return '', 204

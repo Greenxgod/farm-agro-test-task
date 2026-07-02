@@ -98,7 +98,7 @@ VITE_API_URL=/api
 🚀 Запуск через Docker Compose (Рекомендуемый способ)
 bash
 # Клонировать репозиторий
-git clone <https://github.com/Greenxgod/farm-agro-test-task>
+git clone <repository-url>
 cd reproductive-farms
 
 # Запустить все сервисы
@@ -122,7 +122,7 @@ docker-compose down
 docker-compose down -v
 
 
-Запуск локально (без Docker):
+Запуск локально (без Docker)
 
 Backend:
 bash
@@ -166,7 +166,7 @@ npm run dev
 
 
 
-🌱Миграции БД:
+Миграции БД:
 bash
 
 cd backend

@@ -7,6 +7,7 @@ from app.errors import register_error_handlers
 
 def create_app():
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
     app.config.from_object(Config)
     
     # CORS

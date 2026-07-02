@@ -38,13 +38,5 @@ class FarmService:
     @staticmethod
     def delete_farm(farm_id):
         farm = FarmService.get_farm_by_id(farm_id)
-        
-        # Check if farm has records
-        if farm.records:
-            raise AppError(
-                'Cannot delete farm with existing records',
-                400,
-                {'farm_id': ['Farm has existing reproduction records. Delete them first.']}
-            )
-        
+        # Удаляем ферму - все связанные записи удаляются через CASCADE
         FarmRepository.delete(farm)

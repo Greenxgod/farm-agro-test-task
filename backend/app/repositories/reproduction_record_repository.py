@@ -1,15 +1,16 @@
 from sqlalchemy import and_, or_
 from app.models.reproduction_record import ReproductionRecord
+from app.models.farm import Farm
 from app.extensions import db
 
 class ReproductionRecordRepository:
     @staticmethod
     def get_all(filters=None, sort=None, order='asc', page=1, limit=20):
-        query = ReproductionRecord.query
+        query = db.session.query(ReproductionRecord).join(Farm)
         
         if filters:
             if filters.get('farm_id'):
-                query = query.filter_by(farm_id=filters['farm_id'])
+                query = query.filter(ReproductionRecord.farm_id == filters['farm_id'])
             
             if filters.get('date_from'):
                 query = query.filter(ReproductionRecord.date >= filters['date_from'])
@@ -21,7 +22,7 @@ class ReproductionRecordRepository:
             if sort == 'date':
                 order_by = ReproductionRecord.date
             elif sort == 'farm_name':
-                order_by = ReproductionRecord.farm_id
+                order_by = Farm.name
             else:
                 order_by = ReproductionRecord.id
             
@@ -68,11 +69,11 @@ class ReproductionRecordRepository:
     
     @staticmethod
     def get_statistics(filters=None):
-        query = ReproductionRecord.query
+        query = db.session.query(ReproductionRecord)
         
         if filters:
             if filters.get('farm_id'):
-                query = query.filter_by(farm_id=filters['farm_id'])
+                query = query.filter(ReproductionRecord.farm_id == filters['farm_id'])
             
             if filters.get('date_from'):
                 query = query.filter(ReproductionRecord.date >= filters['date_from'])

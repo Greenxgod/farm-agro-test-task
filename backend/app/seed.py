@@ -8,6 +8,11 @@ def seed_database():
     """Seed the database with test data"""
     print("Seeding database...")
     
+    # Проверяем, есть ли уже данные
+    if Farm.query.count() > 0:
+        print("Database already has data, skipping seed...")
+        return
+    
     # Create farms
     farms_data = [
         "Ферма 1",
@@ -56,5 +61,12 @@ def seed_database():
     print(f"Created {len(farms) * 30} reproduction records")
     print("Seeding completed!")
 
+def run_seed():
+    """Run seed with application context"""
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        seed_database()
+
 if __name__ == '__main__':
-    seed_database()
+    run_seed()
